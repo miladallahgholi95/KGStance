@@ -19,7 +19,7 @@ class SemEval2016:
         for index, row in data_file.iterrows():
             row_dict = {
                 "Text": row["Tweet"],
-                "target": row["Target"],
+                "Target": row["Target"],
                 "Label": row["Stance"]
             }
             json_data.append(row_dict)
