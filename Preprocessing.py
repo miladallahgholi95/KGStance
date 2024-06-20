@@ -36,7 +36,7 @@ class TextPreprocessor:
         return ' '.join(token.lemma_ for token in doc)
 
     def remove_special_characters(self, input_text):
-        return re.sub(r'[^A-Za-z0-9\s]', '', input_text)
+        return re.sub(r'[^A-Za-z\s]', '', input_text)
 
     def tokenize_text(self, input_text):
         return nltk.word_tokenize(input_text)

@@ -1,6 +1,8 @@
 from Preprocessing import TextPreprocessor
 from collections import Counter
 import math
+import spacy
+from Preprocessing import TextPreprocessor
 
 def calculate_mean(numbers):
     if len(numbers) == 0:
@@ -124,7 +126,7 @@ class AnoVa_V1:
                 label_target_anova_words[target] = {}
 
             words_score_sorted_dict = dict(sorted(words_score_dict.items(), key=lambda item: item[1], reverse=True))
-            top_10_dict = dict(list(words_score_sorted_dict.items())[:10])
+            top_10_dict = dict(list(words_score_sorted_dict.items())[:n_words])
             label_target_anova_words[target] = top_10_dict
 
         print(label_target_anova_words)
@@ -244,14 +246,19 @@ class AnoVa_V2:
                 label_target_anova_words[label][target] = {}
 
             words_score_sorted_dict = dict(sorted(words_score_dict.items(), key=lambda item: item[1], reverse=True))
-            top_10_dict = dict(list(words_score_sorted_dict.items())[:10])
+            top_10_dict = dict(list(words_score_sorted_dict.items())[:n_words])
             label_target_anova_words[label][target] = top_10_dict
 
-        print(label_target_anova_words)
+        return label_target_anova_words
 
+class NERExtractor:
+    def __init__(self, model="en_core_web_lg"):
+        self.nlp = spacy.load(model)
+        self.preprocessing = TextPreprocessor()
 
-
-
-
+    def extract_entities(self, input_text):
+        doc = self.nlp(input_text)
+        entities = [{"word": self.preprocessing.preprocess(ent.text), "label": ent.label_} for ent in doc.ents]
+        return entities
 
 
