@@ -100,8 +100,6 @@ for row in tqdm(test_data, desc="Processing embeddings [Test]"):
     row["exists_words_definition_embedding"] = average_vectors(exist_words_embedding)
     row["enrich_words_definition_embedding"] = average_vectors(enrich_words_embedding)
 
-    row["final_embedding"] = average_vectors([row["text_embedding"], row["exists_words_definition_embedding"], row["enrich_words_definition_embedding"]])
-
 
 # save data in pickle
 with open('train_data.pkl', 'wb') as file:
