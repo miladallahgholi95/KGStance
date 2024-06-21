@@ -19,6 +19,13 @@ class WordNet:
                 seen.add(reverse_keyword_tuple)
         return unique_keywords
 
+    def extract_word_definition(self, word):
+        synsets = wn.synsets(word)
+        definitions = [synset.definition().lower() for synset in synsets]
+        return definitions
+
+
+
     def extract_word_keyword_list(self, word):
         keyword_list = []
         synsets = wn.synsets(word)
