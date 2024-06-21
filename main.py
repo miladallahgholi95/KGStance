@@ -19,7 +19,7 @@ anova_words_dict = anova.get_anova_top_words(n_words=10)
 wordnet_extractor = WordNet()
 label_target_graph = {}
 full_knowledge_graph = []
-MAX_LEVEL = 2
+MAX_LEVEL = 3
 for label, target_dict in tqdm(anova_words_dict.items(), desc="Create Knowledge Graph"):
     label_target_graph[label] = {}
     for target, words_dict in target_dict.items():
