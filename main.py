@@ -103,7 +103,8 @@ for row in tqdm(test_data, desc="Processing embeddings [Test]"):
 
 # save data in pickle
 with open('train_data.pkl', 'wb') as file:
-    pickle.dump(test_data, file)
+    pickle.dump(train_data, file)
+
 with open('test_data.pkl', 'wb') as file:
     pickle.dump(test_data, file)
 
