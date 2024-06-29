@@ -88,13 +88,13 @@ for row in tqdm(test_data, desc="Processing embeddings [Test]"):
     for i in range(row["exists_words"].__len__()):
         for definition in row["exists_words_definitions"][i]:
             txt = row["exists_words"][i] + ": " + definition
-            exist_words_embedding.append(bert.get_twitter_bert_embedding(txt))
+            exist_words_embedding.append(bert.get_base_bert_embedding(txt))
 
     enrich_words_embedding = []
     for i in range(row["enrich_words"].__len__()):
         for definition in row["enrich_words_definitions"][i]:
             txt = row["enrich_words"][i] + ": " + definition
-            enrich_words_embedding.append(bert.get_twitter_bert_embedding(txt))
+            enrich_words_embedding.append(bert.get_base_bert_embedding(txt))
 
     row["text_embedding"] = bert.get_twitter_bert_embedding(row["Text"])
     row["exists_words_definition_embedding"] = average_vectors(exist_words_embedding)
