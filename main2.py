@@ -6,6 +6,9 @@ import pickle
 from utils import *
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import f1_score
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.metrics import Precision, Recall
+from tensorflow.keras.layers import Dropout
 
 # read data
 with open('train_data.pkl', 'rb') as file:
@@ -26,12 +29,18 @@ target_embedding_dim = len(train_data_json[0]["target_embedding"])
 bert_input = Input(shape=(bert_embedding_dim,), name='bert_input')
 target_input = Input(shape=(target_embedding_dim,), name='target_input')
 combined = Concatenate()([bert_input, target_input])
-hidden1 = Dense(256, activation='relu')(combined)
-hidden2 = Dense(128, activation='relu')(hidden1)
-hidden3 = Dense(64, activation='relu')(hidden2)
-output = Dense(3, activation='softmax')(hidden3)
+hidden1 = Dense(128, activation='relu')(combined)
+hidden1 = Dropout(0.5)(hidden1)
+hidden2 = Dense(64, activation='relu')(hidden1)
+hidden1 = Dropout(0.5)(hidden1)
+hidden3 = Dense(16, activation='relu')(hidden2)
+hidden1 = Dropout(0.5)(hidden1)
+hidden4 = Dense(8, activation='relu')(hidden3)
+hidden1 = Dropout(0.5)(hidden1)
+output = Dense(3, activation='softmax')(hidden4)
 model = Model(inputs=[bert_input, target_input], outputs=output)
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+optimizer = Adam(learning_rate=0.001)
+model.compile(optimizer=optimizer, loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 model.summary()
 
 # train data preparation
@@ -53,7 +62,7 @@ history = model.fit(
 # test data preparation
 test_labels, test_bert_embeddings, test_target_embeddings = [], [], []
 for row in test_data_json:
-    embedding_fields = ["exists_words_definition_embedding", "enrich_words_definition_embedding"]
+    embedding_fields = ["text_embedding"]
 
     bert_embeddings = []
     for field in embedding_fields:
